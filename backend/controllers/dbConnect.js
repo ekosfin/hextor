@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
   ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0",
   mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
   mongoURLLabel = "";
@@ -32,8 +32,8 @@ if (mongoURL == null) {
     mongoHost = process.env.DOCKER_DB;
     mongoPort = 27017;
     mongoDatabase = process.env.DOCKER_DB_NAME;
-    mongoPassword = process.env.DB_USER;
-    mongoUser = process.env.DB_PASS;
+    mongoPassword = process.env.DB_PASS;
+    mongoUser = process.env.DB_USER;
   }
 
   if (mongoHost && mongoPort && mongoDatabase) {

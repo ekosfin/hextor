@@ -2,7 +2,6 @@ import React from "react";
 import { Card, Container } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
-import Hextorbar from "./Hextorbar";
 
 export default function Dashboard() {
   const { currentUser } = useAuth();
@@ -10,7 +9,6 @@ export default function Dashboard() {
   return (
     <>
       <div className="w-100">
-        <Hextorbar />
         <Container
           className="d-flex align-items-center justify-content-center"
           style={{ minHeight: "100vh" }}

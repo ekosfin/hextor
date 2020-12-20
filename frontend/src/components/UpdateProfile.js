@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert, Container } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import Hextorbar from "./Hextorbar";
 
 export default function UpdateProfile() {
   const emailRef = useRef();
@@ -54,7 +53,6 @@ export default function UpdateProfile() {
   return (
     <>
       <div className="w-100">
-        <Hextorbar />
         <Container
           className="d-flex align-items-center justify-content-center"
           style={{ minHeight: "100vh" }}

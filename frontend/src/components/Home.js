@@ -1,13 +1,10 @@
 import React from "react";
-import { Button, Card, CardDeck, Container } from "react-bootstrap";
-import Hextorbar from "./Hextorbar";
+import { Button, Card, Container } from "react-bootstrap";
 
 export default function Home() {
   return (
     <>
       <Container>
-        <Hextorbar />
-
         <Card style={{ flex: 1 }}>
           <Card.Body>
             <Card.Title>Home</Card.Title>

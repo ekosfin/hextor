@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Hextorbar() {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, username } = useAuth();
   const history = useHistory();
 
   async function handleLogout() {
@@ -30,16 +30,14 @@ export default function Hextorbar() {
             Dashboard
           </Nav.Link>
         )}
-        {currentUser && (
-          <Nav.Link as={Link} to="/dashboard">
-            {currentUser.displayName}
-          </Nav.Link>
-        )}
       </Nav>
       {currentUser && (
-        <Button variant="link" onClick={handleLogout}>
-          Log Out
-        </Button>
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>Signed in as: {username}</Navbar.Text>
+          <Button variant="link" onClick={handleLogout}>
+            Log Out
+          </Button>
+        </Navbar.Collapse>
       )}
       {!currentUser && (
         <Link as={Link} to="/login">

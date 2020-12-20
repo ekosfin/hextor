@@ -9,6 +9,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
+  const [username, setUsername] = useState();
   const [loading, setLoading] = useState(true);
 
   function signup(email, password, username) {
@@ -44,6 +45,7 @@ export function AuthProvider({ children }) {
   }
 
   function updateUsername(username) {
+    setUsername(username);
     return currentUser.updateProfile({ displayName: username });
   }
 
@@ -54,6 +56,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
+      setUsername(user ? user.displayName : "nobody");
       setLoading(false);
     });
 
@@ -69,6 +72,7 @@ export function AuthProvider({ children }) {
     updateEmail,
     updatePassword,
     updateUsername,
+    username,
   };
 
   return (
