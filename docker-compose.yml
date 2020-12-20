@@ -1,0 +1,74 @@
+version: "3.7"
+services:
+  db:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME: /run/secrets/db_user
+      - MONGO_INITDB_ROOT_PASSWORD: /run/secrets/db_user
+    secrets:
+      - db_user
+      - db_pass
+
+  backend:
+    build: ./backend
+    hostname: backend
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - 80:8080
+    environment:
+      - PORT: 8080
+      - IP: 0.0.0.0
+      - DOCKER_DB: db
+      - DOCKER_DB_NAME: app
+      - DB_USER: /run/secrets/db_user
+      - DB_PASS: /run/secrets/db_pass
+    secrets:
+      - db_user
+      - db_pass
+
+    frontend:
+      build: ./frontend
+      hostname: frontend
+      ports:
+        - 8080:8080
+      depends_on:
+        - backend
+      links:
+        - backend
+      environment:
+        - BACKEND_CONNECTION: backend:8080
+        - REACT_APP_FIREBASE_API_KEY: /run/secrets/api_key
+        - REACT_APP_FIREBASE_AUTH_DOMAIN: /run/secrets/auth_domain
+        - REACT_APP_FIREBASE_PROJECT_ID: /run/secrets/project_id
+        - REACT_APP_FIREBASE_STORAGE_BUCKET: /run/secrets/storage_bucket
+        - REACT_APP_FIREBASE_MESSANGING_SENDER_ID: /run/secrets/messanging_sender_id
+        - REACT_APP_FIREBASE_APP_ID: /run/secrets/app_id
+      secrets:
+        - api_key
+        - auth_domain
+        - project_id
+        - storage_bucket
+        - messanging_sender_id
+        - app_id
+
+secrets:
+  api_key:
+    file: ./secrets/api_key.txt
+  auth_domain:
+    file: ./secrets/auth_domain.txt
+  project_id:
+    file: ./secrets/project_id.txt
+  storage_bucket:
+    file: ./secrets/storage_bucket.txt
+  messanging_sender_id:
+    file: ./secrets/messanging_sender_id.txt
+  app_id:
+    file: ./secrets/app_id.txt
+  db_user:
+    file: ./secrets/db_user.txt
+  db_pass:
+    file: ./secrets/db_pass.txt
