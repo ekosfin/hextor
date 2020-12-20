@@ -36,7 +36,7 @@ export default function Home() {
           setError(error);
         }
       );
-  }, []);
+  }, [update]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
