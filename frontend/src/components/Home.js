@@ -32,10 +32,11 @@ export default function Home() {
         // exceptions from actual bugs in components.
         (error) => {
           setIsLoaded(true);
+          console.log(error);
           setError(error);
         }
       );
-  }, [update]);
+  }, []);
 
   if (error) {
     return <div>Error: {error.message}</div>;
