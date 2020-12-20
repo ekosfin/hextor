@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import { Card, Form, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 const BASE_LOCATION =
-  process.env.REACT_APP_BACKEND_URL ||
-  window.location.protocol + "//" + window.location.hostname;
+  window.location.protocol + "//" + process.env.REACT_APP_BACKEND_URL ||
+  window.location.hostname;
 
 export default function SendPost() {
   const { currentUser, setUpdate } = useAuth();

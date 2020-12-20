@@ -3,8 +3,8 @@ import Post from "./Post";
 import Send from "./SendPost";
 import { useAuth } from "../contexts/AuthContext";
 const BASE_LOCATION =
-  process.env.REACT_APP_BACKEND_URL ||
-  window.location.protocol + "//" + window.location.hostname;
+  window.location.protocol + "//" + process.env.REACT_APP_BACKEND_URL ||
+  window.location.hostname;
 
 export default function Home() {
   const { currentUser, update, setUpdate } = useAuth();
