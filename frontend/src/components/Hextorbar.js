@@ -4,14 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Hextorbar() {
-  const {
-    currentUser,
-    logout,
-    setUsername,
-    username,
-    updateName,
-    setUpdateName,
-  } = useAuth();
+  const { currentUser, logout, username } = useAuth();
   const history = useHistory();
 
   async function handleLogout() {
@@ -22,11 +15,6 @@ export default function Hextorbar() {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-    setUsername(currentUser.displayName);
-    setUpdateName(false);
-  }, [updateName]);
 
   return (
     <Navbar bg="light" variant="light">
