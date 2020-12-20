@@ -3,18 +3,21 @@ const app = express();
 const morgan = require("morgan");
 const path = require("path");
 const dbConnect = require("./controllers/dbConnect");
+const postsRouter = require("./routes/posts");
+const cors = require("cors");
 
 Object.assign = require("object-assign");
 app.use(morgan("combined"));
+app.use(cors());
 
 app.use("/upload", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
-const arrayRouter = require("./routes/user");
-app.use("/user", arrayRouter);
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 
-const resetRouter = require("./routes/posts");
-app.use("/posts", resetRouter);
+app.use("/posts", postsRouter);
 
 // error handling
 app.use(function (err, req, res, next) {
@@ -23,5 +26,4 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(dbConnect.port, dbConnect.ip);
-
-module.exports = app;
+console.log("Running on http://" + dbConnect.ip + ":" + dbConnect.port);

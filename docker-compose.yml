@@ -4,6 +4,8 @@ services:
   mongodb:
     image: mongo
     restart: always
+    ports:
+      - 27018:27017
 
   backend:
     build: ./backend
@@ -13,9 +15,9 @@ services:
     links:
       - mongodb
     ports:
-      - 80:8080
+      - 80:80
     environment:
-      PORT: 8080
+      PORT: 80
       IP: 0.0.0.0
       DOCKER_DB: mongodb
       DOCKER_DB_NAME: app

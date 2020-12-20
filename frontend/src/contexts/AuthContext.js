@@ -10,6 +10,8 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [username, setUsername] = useState();
+  const [update, setUpdate] = useState(false);
+  const [updateName, setUpdateName] = useState(false);
   const [loading, setLoading] = useState(true);
 
   function signup(email, password, username) {
@@ -20,6 +22,9 @@ export function AuthProvider({ children }) {
           user.user.updateProfile({
             displayName: username,
           });
+          setUsername(username);
+          setLoading(true);
+          setUpdateName(true);
         }
       })
       .catch((e) => {
@@ -73,6 +78,11 @@ export function AuthProvider({ children }) {
     updatePassword,
     updateUsername,
     username,
+    update,
+    setUpdate,
+    updateName,
+    setUpdateName,
+    setUsername,
   };
 
   return (

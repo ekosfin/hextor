@@ -1,18 +1,54 @@
-import React from "react";
-import { Button, Card, Container } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import Post from "./Post";
+import Send from "./SendPost";
+import { useAuth } from "../contexts/AuthContext";
+const BASE_LOCATION =
+  window.location.protocol + "//" + window.location.hostname;
 
 export default function Home() {
-  return (
-    <>
-      <Container>
-        <Card style={{ flex: 1 }}>
-          <Card.Body>
-            <Card.Title>Home</Card.Title>
-            <Card.Text>Temp things for testing</Card.Text>
-            <Button>Do stuff</Button>
-          </Card.Body>
-        </Card>
-      </Container>
-    </>
-  );
+  const { currentUser, update, setUpdate } = useAuth();
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch(BASE_LOCATION + "/posts/10", {
+      method: "GET",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setUpdate(false);
+          setItems(result);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, [update]);
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <>
+        {currentUser && <Send />}
+        {items.body &&
+          items.body.map((d) => (
+            <Post key={d._id} title={d.author} text={d.content} />
+          ))}
+      </>
+    );
+  }
 }

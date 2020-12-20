@@ -1,14 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const upload = multer({ dest: "uploads/ " });
 const postModel = require("../models/posts");
 
 //Tähän get posts/10 jos haluu 10 uusinta
 router.get("/:many", async (req, res) => {
-  const arrPosts = postModel.find({ sort: { createdAt: -1 }, limit: many });
-
-  return res.json(arrPosts);
+  console.log(req.params.many);
+  let arrPosts = postModel
+    .find({})
+    .sort({ createdAt: "desc" })
+    .limit(Number(req.params.many))
+    .exec((err, docs) => {
+      res.json({ body: docs });
+    });
 });
 
 //Tähän upload post
@@ -33,7 +36,7 @@ router.post("/", async (req, res) => {
     if (err) return res.status(500).json({ message: err.message });
   });
 
-  return res.status(200).json({ message: "Post added" });
+  return res.json({ message: "Added" });
 });
 
 module.exports = router;
